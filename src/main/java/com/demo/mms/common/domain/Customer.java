@@ -1,5 +1,8 @@
 package com.demo.mms.common.domain;
 
+import com.demo.mms.common.utils.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Customer {
@@ -11,10 +14,11 @@ public class Customer {
 
     private String email;
 
-    private Integer tel;
+    private String tel;
 
     private Boolean sex;
 
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date birthday;
 
     private Boolean privilege;
@@ -51,16 +55,27 @@ public class Customer {
         this.email = email == null ? null : email.trim();
     }
 
-    public Integer getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(Integer tel) {
-        this.tel = tel;
+    public void setTel(String tel) {
+        this.tel = tel == null ? null : tel.trim();
     }
 
     public Boolean getSex() {
         return sex;
+    }
+
+    public String getSexTxt() {
+        if (sex == null) {
+            return null;
+        }
+        return sex?"Male":"Female";
+    }
+
+    public String getPrivilegeTxt() {
+        return privilege?"vip":"non-vip";
     }
 
     public void setSex(Boolean sex) {
@@ -69,6 +84,14 @@ public class Customer {
 
     public Date getBirthday() {
         return birthday;
+    }
+
+    public String getBirthdayTxt()
+    {
+        if (birthday == null){
+            return null;
+        }
+        return DateUtil.parseDateToStr(birthday,DateUtil.DATE_FORMAT_YYYY_MM_DD);
     }
 
     public void setBirthday(Date birthday) {
